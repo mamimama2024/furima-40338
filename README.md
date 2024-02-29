@@ -6,6 +6,7 @@
 | ------------------ | ------- | ----------- |
 | email              | string  | null: false, unique: true |
 | encrypted_password | string  | null: false |
+| nickname           | string  | null: false |
 | last_name          | string  | null: false |
 | first_name         | string  | null: false |
 | last_name_kana     | string  | null: false |
@@ -16,7 +17,6 @@
 
 - has_many :items
 - has_many :orders
-_ has_one :address
 
 
 ## items テーブル
@@ -57,15 +57,14 @@ _ has_one :address
 
 | Column        | Type       | Options                   |
 | ------------- | ---------- | ------------------------- |
-| postal_code   | integer    | null: false               |
+| postal_code   | string     | null: false               |
 | prefecture_id | integer    | null: false               |
 | city          | string     | null: false               |
 | addresses     | string     | null: false               |
 | building      | string     |                           |
-| phone_number  | integer    | null: false               |
+| phone_number  | string     | null: false               |
 | order    | references | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :user
 - belongs_to :order
