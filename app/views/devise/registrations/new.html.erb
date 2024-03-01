@@ -1,4 +1,4 @@
-<%= render "shared/second-header"%>
+<%= render partial: "shared/second-header" %>
 
 <%= form_with model: @user, url: user_registration_path, class: 'registration-main', local: true do |f| %>
 <div class='form-wrap'>
@@ -9,7 +9,7 @@
   </div>
 
   <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
-  <%# render 'shared/error_messages', model: f.object %>
+  <%= render partial: "shared/error_messages", locals: { model: @user, object: f.object } %>
   <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
 
   <div class="form-group">
@@ -103,4 +103,4 @@
 </div>
 <% end %>
 
-<%= render "shared/second-footer"%>
+<%= render partial: "shared/second-footer" %>
