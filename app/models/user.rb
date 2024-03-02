@@ -8,7 +8,7 @@ class User < ApplicationRecord
     validates :last_name
     validates :first_name
   end
-  with_options presence: true, format: { with: /\A[ァ-ン]+\z/, message: 'Please use full-width katakana characters.' } do
+  with_options presence: true, format: { with: /\A[ァ-ヶー]+\z/, message: 'Please use full-width katakana characters.' } do
     validates :last_name_kana
     validates :first_name_kana
   end
@@ -18,7 +18,7 @@ class User < ApplicationRecord
   private
 
   def password_complexity
-    return if password.blank? || password =~ /^(?=.*[a-zA-Z])(?=.*\d).+$/
+    return if password.blank? || password =~ /\A(?=.*?[a-zA-Z])(?=.*?[\d])[a-zA-Z\d]+\z/
 
     errors.add :password, 'must include both letters and numbers'
   end

@@ -27,6 +27,7 @@ RSpec.describe User, type: :model do
         another_user = FactoryBot.build(:user)
         another_user.email = @user.email
         another_user.valid?
+        expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
       it 'emailは@を含まないと登録できない' do
         @user.email = 'test'
@@ -49,11 +50,22 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too long (maximum is 128 characters)')
       end
-      it 'passwordは半角英字と数字が両方存在していないと登録できない' do
+      it 'passwordは半角英字のみでは登録できない' do
+        @user.password = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password must include both letters and numbers')
+      end
+      it 'passwordは半角数字のみでは登録できない' do
         @user.password = '123456'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password must include both letters and numbers')
       end
+      it 'passwordは全角文字を含むと登録できない' do
+        @user.password = '1a５aaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+
       it 'passwordとpassword_confirmationが不一致では登録できない' do
         @user.password = '123456'
         @user.password_confirmation = '1234567'
