@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   validates :nickname, presence: true
-  with_options presence: true, format: { with: /\A[ぁ-んァ-ン一-龥]+\z/, message: 'Please use full-width characters.' } do
+  with_options presence: true, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: 'Please use full-width characters.' } do
     validates :last_name
     validates :first_name
   end
@@ -18,8 +18,7 @@ class User < ApplicationRecord
   private
 
   def password_complexity
-    return if password.blank? || password =~ /\A(?=.*?[a-zA-Z])(?=.*?[\d])[a-zA-Z\d]+\z/
-
+    return if password.blank? || password =~ /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i 
     errors.add :password, 'must include both letters and numbers'
   end
 end
