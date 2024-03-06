@@ -14,3 +14,4 @@ function calc (){
 };
 
 window.addEventListener('turbo:load', calc);
+window.addEventListener('turbo:render', calc);
