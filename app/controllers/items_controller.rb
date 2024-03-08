@@ -1,8 +1,11 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: :new
+  before_action :set_item, only: [:edit, :show, :update]
+  before_action :move_to_signIn, except: [:index, :show]
+  before_action :move_to_index, except: [:index, :show, :update]
 
   def index
-    @items = Item.includes(:user).order("created_at DESC")
+    @items = Item.includes(:user).order('created_at DESC')
   end
 
   def new
@@ -19,10 +22,36 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
+  end
+
+  def edit
+    return unless @item.order.present?
+    redirect_to action: :index
+  end
+
+  def update
+    if @item.update(items_params)
+      redirect_to item_path(params[:id])
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  def move_to_signIn
+    return if user_signed_in?
+    redirect_to new_user_session_path
+  end
+
+  def move_to_index
+    return if current_user.id == @item.user_id
+    redirect_to action: :index
+  end
 
   def items_params
     params.require(:item).permit(:name, :info, :category_id, :sales_status_id, :shipping_fee_status_id, :prefecture_id,
