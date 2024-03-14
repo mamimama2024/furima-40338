@@ -8,13 +8,13 @@ RSpec.describe OrderAddress, type: :model do
     sleep(0.1)
   end
 
-  describe "商品購入" do
+  describe '商品購入' do
     context '商品が購入できるとき' do
-      it "必要な情報を適切に入力して「購入」ボタンを押すと、商品購入ができる" do
+      it '必要な情報を適切に入力して「購入」ボタンを押すと、商品購入ができる' do
         expect(@order_address).to be_valid
       end
       it 'buildingが空でも登録できる' do
-        @order_address.building = ""
+        @order_address.building = ''
         expect(@order_address).to be_valid
       end
     end
@@ -35,14 +35,14 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Token can't be blank")
       end
       it 'postal_codeが空では登録できない' do
-        @order_address.postal_code = ""
+        @order_address.postal_code = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Postal code can't be blank")
       end
       it 'postal_codeは、「3桁ハイフン4桁」の半角文字列以外では登録できない' do
-        @order_address.postal_code = "1234567"
+        @order_address.postal_code = '1234567'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
+        expect(@order_address.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'prefecture_idが"---"では登録できない' do
         @order_address.prefecture_id = 1
@@ -50,34 +50,34 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Prefecture can't be blank")
       end
       it 'cityが空では登録できない' do
-        @order_address.city = ""
+        @order_address.city = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("City can't be blank")
       end
       it 'addressesが空では登録できない' do
-        @order_address.addresses = ""
+        @order_address.addresses = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Addresses can't be blank")
       end
       it 'phone_numberが空では登録できない' do
-        @order_address.phone_number = ""
+        @order_address.phone_number = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Phone number can't be blank")
       end
       it 'Phone_numberが9桁以下の場合は登録できない' do
-        @order_address.phone_number = "01234567"
+        @order_address.phone_number = '01234567'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Phone number is invalid")
+        expect(@order_address.errors.full_messages).to include('Phone number is invalid')
       end
       it 'Phone_numberが12桁以上の場合は登録できない' do
-        @order_address.phone_number = "012345678901"
+        @order_address.phone_number = '012345678901'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Phone number is invalid")
+        expect(@order_address.errors.full_messages).to include('Phone number is invalid')
       end
       it 'Phone_numberに半角数字以外が含まれている場合は登録できない' do
-        @order_address.phone_number = "090-123-456"
+        @order_address.phone_number = '090-123-456'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include("Phone number is invalid")
+        expect(@order_address.errors.full_messages).to include('Phone number is invalid')
       end
     end
   end
